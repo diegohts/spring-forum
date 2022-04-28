@@ -1,6 +1,5 @@
 package br.com.alura.forum.model;
 
-// Usuario, representa um aluno cadastrado no forum
 public class Usuario {
 
 	private Long id;

@@ -2,7 +2,6 @@ package br.com.alura.forum.model;
 
 import java.time.LocalDateTime;
 
-//Representa a resposta de um topico
 public class Resposta {
 
 	private Long id;

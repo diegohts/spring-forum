@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-// Classe principal do projeto 
 public class Topico {
 
 	private Long id;

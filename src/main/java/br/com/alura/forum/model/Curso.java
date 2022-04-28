@@ -1,6 +1,5 @@
 package br.com.alura.forum.model;
 
-// Um curso onde aquele topico foi aberto
 public class Curso {
 
 	private Long id;
