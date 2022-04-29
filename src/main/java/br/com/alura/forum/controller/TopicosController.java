@@ -23,15 +23,8 @@ public class TopicosController {
     private TopicoRepository TopicoRepository;
 
     @Autowired
-    private CursoRepository cursoRepository; // Injetando CursoRepository
+    private CursoRepository cursoRepository;
 
-    // Agora usaremos os verbos HTTP, para diferenciar essa ambiguidade ao chamar os
-    // /topicos e tem 2 modos de fazer isso
-    // @RequestMapping(value = "/topicos", method = RequestMethod.GET) primeiro modo
-    // seria assim diferenciando do metodo
-    // cadastrar o POST.
-    // O segundo modo eh melhor e como aqui chama sempre o /topicos, menciono em
-    // cima dessa classe e depois mapeado atraves dos verbos, igual a baixo
     @GetMapping
     public List<TopicoDto> lista(String nomeCurso) {
         if (nomeCurso == null) {
@@ -43,29 +36,9 @@ public class TopicosController {
         }
     }
 
-    // @RequestMapping(value = "/topicos", method = RequestMethod.POST)
     @PostMapping
-    public void cadastrar(@RequestBody TopicoForm form) { // Agora preciso receber as informacoes de um formulario do
-                                                          // topico que quero cadastrar. Na teoria poderia cadastrar
-                                                          // todos os atributos dos Topicos, mas os necessarios sao os
-                                                          // atributos TopicoDto entao para diferenciar usarei o
-                                                          // TopicoForm.
-        // TopicoDto = são dados que saem da API de volta para o cliente.
-        // TopicoForm = são dados que chegam do cliente para a API
-
-        // Na hora de cadastrar, eles não vêm na barra de endereços, não vêm na URL.
-        // Eles vêm no corpo da requisição.
-        // A requisição é via método POST, não método GET. Então eu não mando os
-        // parâmetros via URL. Os parâmetros vão no corpo da requisição. Preciso avisar
-        // isso para o Spring. Temos que colocar uma anotação no parâmetro TopicoForm
-        // topico, que é o @RequestBody
-
-        // save = salva no banco, porem espera um Topico e nao um form, precisa salvar o
-        // topico da entidade. Entao teremos que converter.
-        // Na maneira de cima no metodo lista convertemos a lista de topicos e converteu
-        // para TopicoDto.
-        // Aqui sera o contrario vou receber o form e converter para topico
-        Topico topico = form.converter(cursoRepository); // tenho que passar um CursoRepository injetando
+    public void cadastrar(@RequestBody TopicoForm form) {
+        Topico topico = form.converter(cursoRepository);
         TopicoRepository.save(topico);
     }
 }
