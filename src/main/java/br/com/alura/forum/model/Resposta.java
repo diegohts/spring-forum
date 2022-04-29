@@ -16,16 +16,15 @@ public class Resposta {
 	private Long id;
 	private String mensagem;
 
-	@ManyToOne // MUITAS respostas PARA UM topico
+	@ManyToOne
 	private Topico topico;
 
 	private LocalDateTime dataCriacao = LocalDateTime.now();
 
-	@ManyToOne // MUITAS respostas PARA UM autor
+	@ManyToOne
 	private Usuario autor;
 
-	private Boolean solucao = false; // quando crio uma resposta ela nao e ainda a solucao ate alguem marca como
-										// solucao
+	private Boolean solucao = false;
 
 	@Override
 	public int hashCode() {

@@ -12,10 +12,6 @@ public class TopicoDto {
     private String mensagem;
     private LocalDateTime dataCriacao;
 
-    // Toda vez que eu der new no topicoDto, passo como parametro
-    // um objeto do tipo topico. Isto eh, TopicoDto(Topico topico) Dentro do Topico,
-    // ja tenho as informacoes: o "id", o "título" e a "mensagem". Recebo o topico
-    // e, a partir desse topico, preencho os atributos.
     public TopicoDto(Topico topico) {
         this.id = topico.getId();
         this.titulo = topico.getTitulo();
@@ -53,14 +49,6 @@ public class TopicoDto {
 
     public static List<TopicoDto> converter(List<Topico> topicos) {
         return topicos.stream().map(TopicoDto::new).collect(Collectors.toList());
-        // A função do mapeamento será TopicoDto::new, porque ele vai chamar o
-        // construtor que recebe o próprio tópico como parâmetro. No final, tenho que
-        // transformar isso em uma lista, então vou encadear a chamada para o método
-        // collect(), passando collectors.toList() para transformar numa lista.
-        // Essa é a sintaxe do Java 8. Sem ele, teríamos que pegar essa lista de
-        // tópicos, fazer um for para cada tópico, dar new no topicoDto, guardar em uma
-        // lista de topicoDto e devolver essa lista de topicoDto no final. Desse jeito,
-        // ele faz tudo isso em uma linha só usando API de strings do Java 8.
     }
 
 }
