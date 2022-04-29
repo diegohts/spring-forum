@@ -8,6 +8,6 @@ import br.com.alura.forum.model.Topico;
 
 public interface TopicoRepository extends JpaRepository<Topico, Long> {
 
-    List<Topico> findByTitulo(String titulo); // Filtrando a pesquisa pelo atributo titulo da tabela Topico
+    List<Topico> findByTitulo(String titulo);
 
 }
