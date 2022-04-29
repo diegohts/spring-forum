@@ -2,13 +2,28 @@ package br.com.alura.forum.model;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class Resposta {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String mensagem;
+
+	@ManyToOne // MUITAS respostas PARA UM topico
 	private Topico topico;
+
 	private LocalDateTime dataCriacao = LocalDateTime.now();
+
+	@ManyToOne // MUITAS respostas PARA UM autor
 	private Usuario autor;
+
 	private Boolean solucao = false; // quando crio uma resposta ela nao e ainda a solucao ate alguem marca como
 										// solucao
 
