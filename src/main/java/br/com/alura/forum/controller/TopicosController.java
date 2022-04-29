@@ -41,15 +41,11 @@ public class TopicosController {
 
     @PostMapping
     public ResponseEntity<TopicoDto> cadastrar(@RequestBody TopicoForm form, UriComponentsBuilder uriBuilder) {
-        // tenho que retornar o codigo 201 o cadastro com sucesso, se fosse void e
-        // processasse com sucesso era 200, nao sendo ideal nesse caso
 
         Topico topico = form.converter(cursoRepository);
         TopicoRepository.save(topico);
 
         URI uri = uriBuilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
-        // o caminho presente para execucao da criacao de um unico topico e o pega o
-        // topico criado e transforma na uri completinha com endereco do servidor
-        return ResponseEntity.created(uri).body(new TopicoDto(topico)); // o dto como corpo da resposta
+        return ResponseEntity.created(uri).body(new TopicoDto(topico));
     }
 }
