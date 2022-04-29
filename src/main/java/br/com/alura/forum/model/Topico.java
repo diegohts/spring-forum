@@ -35,6 +35,17 @@ public class Topico {
 	@OneToMany(mappedBy = "topico")
 	private List<Resposta> respostas = new ArrayList<>();
 
+	// Criando 2 contrutores um vazio, para nao dar erro caso nao venha nada, e o
+	// outro usado no cadastro de um topico, na classe TopicoForm
+	public Topico() {
+	}
+
+	public Topico(String titulo, String mensagem, Curso curso) {
+		this.titulo = titulo;
+		this.mensagem = mensagem;
+		this.curso = curso;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
