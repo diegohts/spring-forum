@@ -43,17 +43,6 @@ public class TopicosController {
 
     @PostMapping
     public ResponseEntity<TopicoDto> cadastrar(@RequestBody @Valid TopicoForm form, UriComponentsBuilder uriBuilder) {
-        // O valid quer dizer a Spring que aundo for injetar essa TopicoForm puxando os
-        // dados que estão vindo na requisição, chame tambem @Valid as suas validacoes
-
-        // Aqui poderia fazer as validacoes cheio de if e else retornando o codigo
-        // especifico para cada situacao, porem no spring form isso nao eh uma boa
-        // solucao, pois poluiria o codigo fonte. Entao usa-se o BeanValidation para
-        // reliazar as validacoes de forma mais limpa.
-
-        // E as validacoes acontecem quando o usuario vai cadastrar as informacoes
-        // atraves do formulario passado, no TopicoForm. Entao passaremos as anotacoes
-        // para fazer essas validacoes
         Topico topico = form.converter(cursoRepository);
         topicoRepository.save(topico);
 
