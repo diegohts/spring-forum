@@ -17,15 +17,12 @@ public class TopicosController {
     private TopicoRepository TopicoRepository;
 
     @RequestMapping("/topicos")
-    public List<TopicoDto> lista(String nomeCurso) { // Ao contrário do caso anterior, agora queremos o nome do Curso,
-                                                     // um atributo presente na Tabela Curso e não da tabela Topico.
+    public List<TopicoDto> lista(String nomeCurso) {
         if (nomeCurso == null) {
             List<Topico> topicos = TopicoRepository.findAll();
             return TopicoDto.converter(topicos);
         } else {
-            List<Topico> topicos = TopicoRepository.findByCursoNome(nomeCurso); // Entao para a criacao do metodo
-                                                                                // concanteno o findBy + tabela +
-                                                                                // atributo = findBy +Curso + Nome
+            List<Topico> topicos = TopicoRepository.findByCursoNome(nomeCurso);
             return TopicoDto.converter(topicos);
         }
 
