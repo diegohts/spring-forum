@@ -25,11 +25,8 @@ public class DetalhesTopicoDto {
         this.dataCriacao = topico.getDataCriacao();
         this.nomeAutor = topico.getAutor().getNome();
         this.status = topico.getStatus();
-        this.respostas = new ArrayList<>(); // primeiro instancio a lista
+        this.respostas = new ArrayList<>();
         this.respostas.addAll(topico.getRespostas().stream().map(RespostaDto::new).collect(Collectors.toList()));
-        // adciono uma lista de resposta até o getRespostas, porém preciso de uma lista
-        // de respostaDto, dada a resposta quero uma respost, coletando isso para uma
-        // lista
     }
 
     public Long getId() {

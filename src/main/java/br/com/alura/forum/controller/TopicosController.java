@@ -52,13 +52,10 @@ public class TopicosController {
         return ResponseEntity.created(uri).body(new TopicoDto(topico));
     }
 
-    @GetMapping("/{id}") // Aqui tenho que passar o id, pois se nao fica igual o metodo lista e nesse
-                         // caso eh so o id especifico
+    @GetMapping("/{id}")
     public DetalhesTopicoDto detalhar(@PathVariable Long id) {
-        // Aqui Path variable preciso especificar que eh uma variavel da url
-        // Criei o DetalhesTopicoDto porque quero mais atributos do que o TopicosDto
+
         Topico topico = topicoRepository.getOne(id);
         return new DetalhesTopicoDto(topico);
-        // A ideia eh detalhar um topico para trazer mais respostas
     }
 }
