@@ -4,13 +4,10 @@ public class ErroDeFormularioDto {
     private String campo;
     private String erro;
 
-    // Essa classe representa erro de validação. O JSON, que vai ser devolvido para
-    // o cliente, não vai ser mais aquele imenso do Spring. Vai ser o JSON
-    // representado por essa classe.
     public ErroDeFormularioDto(String campo, String erro) {
-        // Representando o erro de algum campo
-        this.campo = campo; // campo que ocorreu o erro
-        this.erro = erro; // e a mensagem de erro
+
+        this.campo = campo;
+        this.erro = erro;
     }
 
     /**
