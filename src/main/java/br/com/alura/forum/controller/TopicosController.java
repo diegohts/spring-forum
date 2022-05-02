@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,16 +43,15 @@ public class TopicosController {
 
     @GetMapping
     public Page<TopicoDto> lista(@RequestParam(required = false) String nomeCurso, @RequestParam int pagina,
-            @RequestParam int qtd) {
-        // Paginacao tenho que passar agora desse modo
-        // http://localhost:8080/topicos?pagina=0&qtd=3, pois eh obrigatorio a pagina e
-        // a qtd
+            @RequestParam int qtd, @RequestParam String ordenacao) {
+        // flexibilizar qual ordem que o cliente quer, entao ele tera que passar qual
+        // campo ele quer ordenar. Ex:
+        // http://localhost:8080/topicos?pagina=0&qtd=3&ordenacao=mensagem
 
-        Pageable paginacao = PageRequest.of(pagina, qtd); // Que eh a paginacao do Spring Data
+        Pageable paginacao = PageRequest.of(pagina, qtd, Direction.ASC, ordenacao); // ordenacao crescente
 
         if (nomeCurso == null) {
-            Page<Topico> topicos = topicoRepository.findAll(paginacao); // na retorna mais um list, retorna um Page, ai
-                                                                        // o page tem numero de paginas, pagina atual
+            Page<Topico> topicos = topicoRepository.findAll(paginacao);
             return TopicoDto.converter(topicos);
         } else {
             Page<Topico> topicos = topicoRepository.findByCursoNome(nomeCurso, paginacao);
@@ -74,16 +74,15 @@ public class TopicosController {
 
         Optional<Topico> topico = topicoRepository.findById(id);
 
-        if (topico.isPresent()) { // existe um metodo no Optional is Present para verificar se esta presente
-            return ResponseEntity.ok(new DetalhesTopicoDto(topico.get())); // aqui é pra pegar o topico que esta dentro
-                                                                           // do Optional
+        if (topico.isPresent()) {
+            return ResponseEntity.ok(new DetalhesTopicoDto(topico.get()));
         }
 
-        return ResponseEntity.notFound().build(); // Retorna o erro 404
+        return ResponseEntity.notFound().build();
     }
 
     @PutMapping("/{id}")
-    @Transactional // senao ele nao vai mandar o update no banco de dados
+    @Transactional
     public ResponseEntity<TopicoDto> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizacaoTopicoForm form) {
         Optional<Topico> optional = topicoRepository.findById(id);
 
@@ -91,7 +90,7 @@ public class TopicosController {
             Topico topico = form.atualizar(id, topicoRepository);
             return ResponseEntity.ok(new TopicoDto(topico));
         }
-        return ResponseEntity.notFound().build(); // Retorna o erro;
+        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
@@ -103,6 +102,6 @@ public class TopicosController {
             topicoRepository.deleteById(id);
             return ResponseEntity.ok().build();
         }
-        return ResponseEntity.notFound().build(); // Retorna o erro;
+        return ResponseEntity.notFound().build();
     }
 }
