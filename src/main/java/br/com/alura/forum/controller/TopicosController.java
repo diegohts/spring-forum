@@ -44,12 +44,6 @@ public class TopicosController {
     @GetMapping
     public Page<TopicoDto> lista(@RequestParam(required = false) String nomeCurso,
             @PageableDefault(sort = "id", direction = Direction.DESC, page = 0, size = 10) Pageable paginacao) {
-        // PageableDefault Paginacao padrao
-        // com pageable eu nao preciso colocar os parametros soltos, posso agrupar as
-        // informacoes. Exemplos:
-        // http://localhost:8080/topicos
-        // http://localhost:8080/topicos?page=0&size=10&sort=mensagem,asc&sort=id,desc
-        // http://localhost:8080/topicos?nomeCurso=Spring+Boot&page=0&size=10&sort=mensagem,asc&sort=id,desc
 
         if (nomeCurso == null) {
             Page<Topico> topicos = topicoRepository.findAll(paginacao);
