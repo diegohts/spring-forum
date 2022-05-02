@@ -44,11 +44,8 @@ public class TopicosController {
     @GetMapping
     public Page<TopicoDto> lista(@RequestParam(required = false) String nomeCurso, @RequestParam int pagina,
             @RequestParam int qtd, @RequestParam String ordenacao) {
-        // flexibilizar qual ordem que o cliente quer, entao ele tera que passar qual
-        // campo ele quer ordenar. Ex:
-        // http://localhost:8080/topicos?pagina=0&qtd=3&ordenacao=mensagem
 
-        Pageable paginacao = PageRequest.of(pagina, qtd, Direction.ASC, ordenacao); // ordenacao crescente
+        Pageable paginacao = PageRequest.of(pagina, qtd, Direction.ASC, ordenacao);
 
         if (nomeCurso == null) {
             Page<Topico> topicos = topicoRepository.findAll(paginacao);
