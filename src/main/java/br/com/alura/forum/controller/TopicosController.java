@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -43,7 +44,19 @@ public class TopicosController {
     private CursoRepository cursoRepository;
 
     @GetMapping
-    @Cacheable(value = "listaDeTopicos")
+    // Porém, na teoria, poderíamos colocar a aplicação inteira em cache então, e eu
+    // nunca mais vou no banco de dados. Na prática isso não é muito interessante,
+    // porque precisamos invalidar o cache em determinados momentos. Se você ficar
+    // toda hora guardando informação, depois limpa, guarda de novo, toda hora você
+    // tem que ficar invalidando, isso tem um custo de processamento e pode até
+    // piorar a performance da sua aplicação.
+    // Eh interessante USAR CACHE para ganho de performance em métodos que NUNCA ou
+    // RARAMENTE VÃO SER ATUALIZADOS, porque assim você evita esse custo de limpar o
+    // cache e guardar de novo.
+    @Cacheable(value = "listaDeTopicos") // Dessa forma assim, agora temos um problema, caso alguém cadastrar, excluir
+                                         // ou alterar um tópico no projeto, o cache não vai ser atualizado
+                                         // automaticamente. Na próxima consulta para listagem eu teria uma informação
+                                         // desatualizada.
     public Page<TopicoDto> lista(@RequestParam(required = false) String nomeCurso,
             @PageableDefault(sort = "id", direction = Direction.DESC, page = 0, size = 10) Pageable paginacao) {
 
@@ -58,6 +71,9 @@ public class TopicosController {
 
     @PostMapping
     @Transactional
+    @CacheEvict(value = "listaDeTopicos", allEntries = true) // Aqui digo para o Spring que limpe o cache nomeado como
+                                                             // listaDeTopicos. Limpando todos os registros para ele
+                                                             // atualizar tudo e deixar o cache zerado de novo
     public ResponseEntity<TopicoDto> cadastrar(@RequestBody @Valid TopicoForm form, UriComponentsBuilder uriBuilder) {
         Topico topico = form.converter(cursoRepository);
         topicoRepository.save(topico);
@@ -80,6 +96,7 @@ public class TopicosController {
 
     @PutMapping("/{id}")
     @Transactional
+    @CacheEvict(value = "listaDeTopicos", allEntries = true)
     public ResponseEntity<TopicoDto> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizacaoTopicoForm form) {
         Optional<Topico> optional = topicoRepository.findById(id);
 
@@ -92,6 +109,7 @@ public class TopicosController {
 
     @DeleteMapping("/{id}")
     @Transactional
+    @CacheEvict(value = "listaDeTopicos", allEntries = true)
     public ResponseEntity<?> remover(@PathVariable Long id) {
         Optional<Topico> optional = topicoRepository.findById(id);
 
