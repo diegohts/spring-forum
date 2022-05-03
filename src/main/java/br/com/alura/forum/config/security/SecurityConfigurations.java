@@ -21,9 +21,9 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
     private AutenticacaoService autenticacaoService;
 
     @Override
-    @Bean // Para conseguir injetar no nosso controller
+    @Bean
     protected AuthenticationManager authenticationManager() throws Exception {
-        return super.authenticationManager(); // um objeto da classe pai, que cria AuthenticationManager
+        return super.authenticationManager();
     }
 
     @Override
