@@ -1,6 +1,5 @@
 package br.com.alura.forum.controller.form;
 
-// Logica do Form para pegar os parametros que estao chegando do cliente 
 public class LoginForm {
 
     private String email;
