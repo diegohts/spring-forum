@@ -15,7 +15,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-public class Usuario implements UserDetails { // Inteface que fornece detalhes do usuario
+public class Usuario implements UserDetails {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,8 +24,6 @@ public class Usuario implements UserDetails { // Inteface que fornece detalhes d
 	private String email;
 	private String senha;
 
-	// um Usuario pode ter varios perfis, e um perfil pode estar atrelado a varios
-	// usuarios ao mesmo tempo
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Perfil> perfis = new ArrayList<>();
 
@@ -87,12 +85,7 @@ public class Usuario implements UserDetails { // Inteface que fornece detalhes d
 	}
 
 	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() { // Uma classe também que representa o
-																		// perfil do usuário, que é o perfil relacionado
-																		// com as permissões de acesso dele. Por isso
-																		// ele tem mais esse método, que é para devolver
-																		// qual atributo contém a coleção com os perfis
-																		// desse usuário.
+	public Collection<? extends GrantedAuthority> getAuthorities() {
 
 		return this.perfis;
 	}

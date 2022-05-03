@@ -8,11 +8,9 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-@EnableWebSecurity // Habilitando o modulo de seguranca
-@Configuration // Spring vai ler as configuracoes presente nessa classe
+@EnableWebSecurity
+@Configuration
 public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
-    // Ao utilizar WebSecurityConfigurerAdapter vai ter alguns metodos pra fazer as
-    // configuracoes que vamos sobrescrever posteriormente
 
     // Configuracoes de autenticacao
     // A parte de controle de acesso, de login, fica nesse método
@@ -21,20 +19,14 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 
     }
 
-    // Configuracoes de Autorizacao
-    // Quem pode acessar cada url, perfil de acesso
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // Nesse projeto vamos liberar o que lista todos os topicos (/topicos) e que o
-        // que detalha um topico especifico (/topicos/{id})
-        // Os outros 3 para cadastrar, atualizar e remover vou querer restringir,
-        // nao ficando publico
-        // Liberando acesso aos endpoints publicos
+
         http.authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/topicos").permitAll() // Permitir o metodo get do /topicos permiti acesso
-                .antMatchers(HttpMethod.GET, "/topicos/*").permitAll() // Permiti ao get do /topicos/{alguma coisa}
-                .anyRequest().authenticated() // Qualquer outra requisição tem que estar autenticado
-                .and().formLogin(); // o Spring gera um formulario padrao de autenticacao
+                .antMatchers(HttpMethod.GET, "/topicos").permitAll()
+                .antMatchers(HttpMethod.GET, "/topicos/*").permitAll()
+                .anyRequest().authenticated()
+                .and().formLogin();
     }
 
     // Configurações de recursos estáticos

@@ -8,9 +8,9 @@ import javax.persistence.Id;
 import org.springframework.security.core.GrantedAuthority;
 
 @Entity
-public class Perfil implements GrantedAuthority { // Mostrar para o Spring que essa classe representa o perfil de acesso
+public class Perfil implements GrantedAuthority {
 
-    // private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,7 +46,7 @@ public class Perfil implements GrantedAuthority { // Mostrar para o Spring que e
     }
 
     @Override
-    public String getAuthority() { // // retorna o atributo do nome do perfil
+    public String getAuthority() {
         return nome;
     }
 
