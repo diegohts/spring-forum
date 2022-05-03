@@ -32,7 +32,9 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
         // Liberando acesso aos endpoints publicos
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/topicos").permitAll() // Permitir o metodo get do /topicos permiti acesso
-                .antMatchers(HttpMethod.GET, "/topicos/*").permitAll(); // Permiti ao get do /topicos/{alguma coisa}
+                .antMatchers(HttpMethod.GET, "/topicos/*").permitAll() // Permiti ao get do /topicos/{alguma coisa}
+                .anyRequest().authenticated() // Qualquer outra requisição tem que estar autenticado
+                .and().formLogin(); // o Spring gera um formulario padrao de autenticacao
     }
 
     // Configurações de recursos estáticos

@@ -1,12 +1,21 @@
 package br.com.alura.forum.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-public class Usuario {
+public class Usuario implements UserDetails { // Inteface que fornece detalhes do usuario
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,6 +23,11 @@ public class Usuario {
 	private String nome;
 	private String email;
 	private String senha;
+
+	// um Usuario pode ter varios perfis, e um perfil pode estar atrelado a varios
+	// usuarios ao mesmo tempo
+	@ManyToMany(fetch = FetchType.EAGER)
+	private List<Perfil> perfis = new ArrayList<>();
 
 	@Override
 	public int hashCode() {
@@ -70,6 +84,53 @@ public class Usuario {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() { // Uma classe também que representa o
+																		// perfil do usuário, que é o perfil relacionado
+																		// com as permissões de acesso dele. Por isso
+																		// ele tem mais esse método, que é para devolver
+																		// qual atributo contém a coleção com os perfis
+																		// desse usuário.
+
+		return this.perfis;
+	}
+
+	@Override
+	public String getPassword() {
+
+		return this.senha;
+	}
+
+	@Override
+	public String getUsername() {
+
+		return this.email;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+
+		return true;
 	}
 
 }
