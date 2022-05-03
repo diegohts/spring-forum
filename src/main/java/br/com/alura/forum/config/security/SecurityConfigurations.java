@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @EnableWebSecurity
@@ -32,8 +33,14 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/topicos").permitAll()
                 .antMatchers(HttpMethod.GET, "/topicos/*").permitAll()
-                .anyRequest().authenticated()
-                .and().formLogin();
+                .antMatchers(HttpMethod.POST, "/auth").permitAll() // liberando o auth, url de login
+                .anyRequest().authenticated() // tiramos o and().formLogin, porque senão vai criar sessao
+                .and().csrf().disable() // crsf é uma abreviação para um tipo de ataque hacker que acontece na web, só
+                                        // que como vamos fazer autenticação via token automaticamente da livre desse
+                                        // ataque e entao desabilitamos
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        // metodo informando que nao queremos usar sessao, entao qual vai ser a politica
+        // de criacao de sessao de forma STATELESS
     }
 
     // Configurações de recursos estáticos
