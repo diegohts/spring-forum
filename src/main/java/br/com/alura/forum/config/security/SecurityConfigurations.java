@@ -52,9 +52,6 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, usuarioRepository),
                         UsernamePasswordAuthenticationFilter.class);
-        // passo o filtro que quero adicionar e antes de quem
-        // Entao antes de fazer autenticacao e qualquer coisa, rode o filtro que eh para
-        // pegar o token
     }
 
     @Override

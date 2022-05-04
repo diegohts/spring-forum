@@ -35,11 +35,9 @@ public class TokenService {
                 .compact();
     }
 
-    public boolean isTokenValido(String token) { // validar esse token esta chegando ok ou nao
+    public boolean isTokenValido(String token) {
         try {
             Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token);
-            // logica que vai fazer o parser de um token vai descriptografar e verificar se
-            // esta ok
             return true;
         } catch (Exception e) {
             return false;
@@ -49,10 +47,8 @@ public class TokenService {
 
     public Long getIdUsuario(String token) {
         Claims claims = Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token).getBody();
-        // que volta o corpo do objeto do token
 
-        return Long.parseLong(claims.getSubject()); // onsigo recuperar o id do usuário que está setado dentro do token
-
+        return Long.parseLong(claims.getSubject());
     }
 
 }
