@@ -12,6 +12,16 @@ import org.springframework.web.filter.OncePerRequestFilter;
 // A ideia é que essa lógica tem que rodar antes de cair no meu controller, no meu código. Tenho que interceptar a requisição e executar a lógica. Para fazer isso, vamos criar um filtro. 
 public class AutenticacaoViaTokenFilter extends OncePerRequestFilter {
     // OncePerRequestFilter filtro do Spring chamado uma única vez a cada requisição
+
+    // Em classes filter nao eh possivel injetar dependencia, entao vou injetar via
+    // construtor recebido da classe SecurityConfigurations
+
+    private TokenService tokenService;
+
+    public AutenticacaoViaTokenFilter(TokenService tokenService) {
+        this.tokenService = tokenService;
+    }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
@@ -20,9 +30,11 @@ public class AutenticacaoViaTokenFilter extends OncePerRequestFilter {
 
         // recuperar o token do cabecalho,
         String token = recuperarToken(request);
-        // valida-lo
+        // verificar se o token esta valido ou nao
+        boolean valido = tokenService.isTokenValido(token);
 
-        System.out.println(token);
+        System.out.println(valido);
+
         // e se tiver ok, autenticar o usuario para o Spring
 
         filterChain.doFilter(request, response); // ja rodei o que tinha que rodar nesse filtro, segue o fluxo da

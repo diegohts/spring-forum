@@ -34,4 +34,16 @@ public class TokenService {
                 .compact();
     }
 
+    public boolean isTokenValido(String token) { // validar esse token esta chegando ok ou nao
+        try {
+            Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token);
+            // logica que vai fazer o parser de um token vai descriptografar e verificar se
+            // esta ok
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+
+    }
+
 }
