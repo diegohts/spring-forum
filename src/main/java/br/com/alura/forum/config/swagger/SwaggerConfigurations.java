@@ -13,26 +13,26 @@ import springfox.documentation.schema.ModelRef;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
-@Configuration // Carrega classe de configuração
+@Configuration 
 public class SwaggerConfigurations {
-// Endereço para abrir o Swagger: localhost:8080/Swagger-ui.html
+
     @Bean
     public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2) // retorna um new docket, especificando o tipo Swagger2
+        return new Docket(DocumentationType.SWAGGER_2) 
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("br.com.alura.forum"))
-                .paths(PathSelectors.ant("/**")) // não tem url restrita
+                .paths(PathSelectors.ant("/**")) 
                 .build()
-                .ignoredParameterTypes(Usuario.class) // ignorando todas urls que trabalham na classe Usuario
-                .globalOperationParameters( // Aqui configurando o parametro global para enviar token JWT com Swagger
+                .ignoredParameterTypes(Usuario.class) 
+                .globalOperationParameters( 
                         Arrays.asList(
-                                new ParameterBuilder() // construindo como vai ser o parametro
-                                    .name("Authorization") // nome do cabeçalho
-                                    .description("Header para Token JWT") // descrição para aparecer na documentação
-                                    .modelRef(new ModelRef("string")) // tipo string, um texto
-                                    .parameterType("header") // tipo de parametro cabeçalho
+                                new ParameterBuilder() 
+                                    .name("Authorization") 
+                                    .description("Header para Token JWT") 
+                                    .modelRef(new ModelRef("string")) 
+                                    .parameterType("header") 
                                     .required(false)
-                                    .build())); // construir o objeto
+                                    .build())); 
     }
 
 }

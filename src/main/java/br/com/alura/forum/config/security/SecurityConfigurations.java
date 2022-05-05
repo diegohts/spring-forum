@@ -48,7 +48,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/topicos/*").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth").permitAll()
                 // .antMatchers(HttpMethod.GET, "/actuator/**").permitAll()
-                .anyRequest().authenticated() // Aqui ele acaba bloqueando todas as outras que não estão acima
+                .anyRequest().authenticated() 
                 .and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, usuarioRepository),
@@ -57,8 +57,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        //preciso liberar o endereço do Swagger. 
-        // Então nesse método configuro as coisas que não quero que o Spring security intercepte, passando todas as strings que queremos ignorar
+       
         web.ignoring()
         .antMatchers("/**.html", "/v2/api-docs", "/webjars/**", "/configuration/**", "/swagger-resources/**");
     }
