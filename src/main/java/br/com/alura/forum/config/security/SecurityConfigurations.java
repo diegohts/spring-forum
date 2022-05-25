@@ -19,7 +19,7 @@ import br.com.alura.forum.repository.UsuarioRepository;
 
 @EnableWebSecurity
 @Configuration
-@Profile("prod") // Spring carrega quando for ambiente de Produção
+@Profile(value= {"prod", "test"}) // Spring carrega quando for ambiente de Produção e test
 public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 
     @Autowired

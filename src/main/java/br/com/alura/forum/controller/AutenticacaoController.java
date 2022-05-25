@@ -20,7 +20,8 @@ import br.com.alura.forum.controller.form.LoginForm;
 
 @RestController
 @RequestMapping("/auth") 
-@Profile("prod") // Essa daqui tbm eh uma classe de seguranca e nao quero carregar ela no ambiente de desenvolvimento
+// @Profile("prod") // Essa daqui tbm eh uma classe de seguranca e nao quero carregar ela no ambiente de desenvolvimento
+@Profile(value = {"prod", "test"}) // Uma classe pode carregar uma ou mais profiles
 public class AutenticacaoController {
 
     @Autowired

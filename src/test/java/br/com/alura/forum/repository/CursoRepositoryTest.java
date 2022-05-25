@@ -14,6 +14,7 @@ import br.com.alura.forum.model.Curso;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
+// Precisamos utilizar essa anotação para que o Spring não considere que os testes devem sempre ser executados utilizando um banco de dados em memória.
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE) // String nao substitua o meu BD que estou configurando na app, como estamos usando o h2 nao mudara nada. Pois o h2 eh um BD em memoria, mas no application properties colocamos as configuracoes do mysql
 @ActiveProfiles("test")
 public class CursoRepositoryTest {
@@ -28,7 +29,7 @@ public class CursoRepositoryTest {
     public void deveriaCarregarUmCursoAoBuscarPeloSeuNome() {
         String nomeCurso = "HTML 5"; //testando o nome desse curso
 
-        Curso html5 = new Curso(); // criando o cruso
+        Curso html5 = new Curso(); // criando o curso
         html5.setNome(nomeCurso);
         html5.setCategoria("Programacao");
         em.persist(html5); // populando o banco vazio com o curso html5
