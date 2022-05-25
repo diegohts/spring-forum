@@ -20,20 +20,19 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 public class AutenticacaoControllerTest {
     
     @Autowired
-    private MockMvc mockMvc; // classe que simula uma requisicao mvc
+    private MockMvc mockMvc;
 
     @Test
     public void deveriaDevolver400CasoDadosDeAutenticacaoEstejamIncorretos() throws Exception{
         URI uri = new URI("/auth");
         String json = "{\"email\":\"invalido@email.com\",\"senha\":\"123456\"}";
 
-        //Quero que performe uma requisicao, passando o tipo e o conteudo
         mockMvc 
             .perform(MockMvcRequestBuilders
                 .post(uri) 
                 .content(json)
                 .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(MockMvcResultMatchers // Quero testar esperando o status code 400
+            .andExpect(MockMvcResultMatchers
                 .status()
                 .is(400));
     }

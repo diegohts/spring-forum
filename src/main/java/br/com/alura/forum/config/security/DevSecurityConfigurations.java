@@ -8,14 +8,14 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @EnableWebSecurity
 @Configuration
-@Profile("dev") // Spring vai carregar essa classe apenas em ambiente de desenvolvimento
+@Profile("dev")
 public class DevSecurityConfigurations extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
-                .antMatchers( "/**").permitAll() // No ambiente de desenvolvimento eh permitido tudo
+                .antMatchers( "/**").permitAll()
                 .and().csrf().disable();
     }
 }

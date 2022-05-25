@@ -12,7 +12,7 @@ public class ForumApplicationTests {
 
 	@Test
 	public void contextLoads() {
-		Assert.assertTrue(true); // verificando se verdadeiro eh verdadeiro, teste desnecessario mas sendo mostrado aqui
+		Assert.assertTrue(true);
 	}
 
 }

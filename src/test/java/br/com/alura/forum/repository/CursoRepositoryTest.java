@@ -14,37 +14,36 @@ import br.com.alura.forum.model.Curso;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-// Precisamos utilizar essa anotação para que o Spring não considere que os testes devem sempre ser executados utilizando um banco de dados em memória.
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE) // String nao substitua o meu BD que estou configurando na app, como estamos usando o h2 nao mudara nada. Pois o h2 eh um BD em memoria, mas no application properties colocamos as configuracoes do mysql
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE) 
 @ActiveProfiles("test")
 public class CursoRepositoryTest {
 
-    @Autowired // Anotacao do spring para fazer injecao de dependencias
+    @Autowired 
     private CursoRepository repository;
 
-    @Autowired // Aqui vou considerar que o banco esta vazio, para o teste tenho que popular ele
+    @Autowired 
     private TestEntityManager em;
 
     @Test
     public void deveriaCarregarUmCursoAoBuscarPeloSeuNome() {
-        String nomeCurso = "HTML 5"; //testando o nome desse curso
+        String nomeCurso = "HTML 5";
 
-        Curso html5 = new Curso(); // criando o curso
+        Curso html5 = new Curso();
         html5.setNome(nomeCurso);
         html5.setCategoria("Programacao");
-        em.persist(html5); // populando o banco vazio com o curso html5
+        em.persist(html5);
 
-        Curso curso = repository.findByNome(nomeCurso); // buscando no banco se tem esse curso HTML 5
+        Curso curso = repository.findByNome(nomeCurso);
 
-        Assert.assertNotNull(curso); // A variavel curso nao pode vim nula
-        Assert.assertEquals(nomeCurso, curso.getNome()); // Verificar se o nomeCurso eh exatamente igual ao curso buscado no banco
+        Assert.assertNotNull(curso);
+        Assert.assertEquals(nomeCurso, curso.getNome());
     }    
 
     @Test
     public void naoDeveriaCarregarUmCursoCujoNomeNaoEstejaCadastrado() {
-        String nomeCurso = "JPA"; //testando o nome desse curso que nao esta cadastrado no BD
-        Curso curso = repository.findByNome(nomeCurso); // buscando no BD se tem esse curso JPA
+        String nomeCurso = "JPA";
+        Curso curso = repository.findByNome(nomeCurso);
 
-        Assert.assertNull(curso); // A variavel curso nao tem que vim nula, pois nao tem esse curso no BD
+        Assert.assertNull(curso);
     }    
 }

@@ -19,7 +19,7 @@ import br.com.alura.forum.repository.UsuarioRepository;
 
 @EnableWebSecurity
 @Configuration
-@Profile(value= {"prod", "test"}) // Spring carrega quando for ambiente de Produção e test
+@Profile(value= {"prod", "test"})
 public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -49,7 +49,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/topicos").permitAll()
                 .antMatchers(HttpMethod.GET, "/topicos/*").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth").permitAll()
-                .antMatchers(HttpMethod.DELETE, "/topicos/*").hasRole("MODERADOR") // So o perfil moderador pode deletar um topico, detalhe no banco temos que colocar ROLE_MODERADOR, aqui o Spring já coloca automaticamente
+                .antMatchers(HttpMethod.DELETE, "/topicos/*").hasRole("MODERADOR") 
                 // .antMatchers(HttpMethod.GET, "/actuator/**").permitAll()
                 .anyRequest().authenticated() 
                 .and().csrf().disable()
